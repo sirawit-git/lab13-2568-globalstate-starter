@@ -8,6 +8,7 @@ import {
   Group,
   Checkbox,
   ActionIcon,
+  Badge,
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
@@ -24,23 +25,28 @@ export default function HomePage() {
         <Title order={2}>Todo List Card</Title>
         <Text size="sm" c="dimmed">
           All : {tasks.length} | Done :
-          {tasks.filter((t: any) => t.isDone).length}
+          {tasks.filter((t) => t.isDone).length}
         </Text>
-        {/* Button เรียกใช้งาน Modal*/}
         <Button onClick={() => setModalOpened(true)}>Add Task</Button>
-        {/* แสดง Modal */}
+
         <AddTaskModal
           opened={modalOpened}
           onClose={() => setModalOpened(false)}
           onAdd={addTask}
         />
-        {/* แสดง Task Cards */}
+
         <Stack w="100%">
           {tasks.map((task) => (
             <Card withBorder shadow="sm" radius="md" mb="sm" key={task.id}>
               <Group justify="space-between" align="flex-start">
                 <Stack>
-                  {/* เพิ่ม assignees ตรงนี้*/}
+                  <Group>
+                    {task.assignees.map((name) => (
+                      <Badge key={name} color="brown" variant="light">
+                        {name}
+                      </Badge>
+                    ))}
+                  </Group>
                   <Text
                     fw={600}
                     td={task.isDone ? "line-through" : "none"}
@@ -52,17 +58,18 @@ export default function HomePage() {
                   <Text size="sm" c="dimmed">
                     {task.description}
                   </Text>
-                  {task.dueDate ? (
-                    <Text size="xs" c="gray">
-                      Due: {dayjs(task.dueDate).format("ddd MMM DD YYYY")}
-                    </Text>
-                  ) : (
-                    <Text size="xs" c="gray">
-                      Due: -
-                    </Text>
-                  )}
+
+                  
+
+                  <Text size="xs" c="gray">
+                    Due:{" "}
+                    {task.dueDate
+                      ? dayjs(task.dueDate).format("ddd MMM DD YYYY")
+                      : "-"}
+                  </Text>
+
                   {task.doneAt && (
-                    <Text size="xs" c="chanadda">
+                    <Text size="xs" c="blue">
                       Done at: {dayjs(task.doneAt).format("ddd MMM DD YYYY")}
                     </Text>
                   )}

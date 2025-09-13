@@ -7,6 +7,8 @@ import {
   Table,
   ActionIcon,
   Checkbox,
+  Badge,
+  Group,
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import { useState } from "react";
@@ -20,12 +22,14 @@ export default function TodoTablePage() {
 
   const rows = tasks.map((task) => (
     <Table.Tr key={task.id}>
-      <Table.Td w={450}>
+      <Table.Td w={200} h={120}>
         <Text fw={400} td={task.isDone ? "line-through" : "none"} size="md">
           {task.title}
         </Text>
       </Table.Td>
-      <Table.Td w={450}>{task.description}</Table.Td>
+
+      <Table.Td w={200} >{task.description}</Table.Td>
+
       <Table.Td>
         <Checkbox
           checked={task.isDone}
@@ -33,16 +37,28 @@ export default function TodoTablePage() {
           label={task.isDone ? "Done" : "Pending"}
         />
       </Table.Td>
+
       <Table.Td>
         {task.dueDate ? dayjs(task.dueDate).format("ddd MMM DD YYYY") : "-"}
       </Table.Td>
+
       <Table.Td>{task.doneAt}</Table.Td>
+
       <Table.Td>
         <ActionIcon color="red" onClick={() => removeTask(task.id)}>
           <IconTrash size={16} />
         </ActionIcon>
       </Table.Td>
-      {/* เพิ่ม row assignees ตรงนี้*/}
+
+      <Table.Td>
+        <Group>
+          {task.assignees.map((name) => (
+            <Badge key={name} color="pink" variant="light">
+              {name}
+            </Badge>
+          ))}
+        </Group>
+      </Table.Td>
     </Table.Tr>
   ));
 
@@ -53,6 +69,7 @@ export default function TodoTablePage() {
         <Text size="sm" c="dimmed">
           All: {tasks.length} | Done: {tasks.filter((t) => t.isDone).length}
         </Text>
+
         <Button onClick={() => setModalOpened(true)}>Add Task</Button>
 
         <AddTaskModal
@@ -64,13 +81,13 @@ export default function TodoTablePage() {
         <Table striped highlightOnHover horizontalSpacing="xl">
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>Title</Table.Th>
-              <Table.Th>Description</Table.Th>
-              <Table.Th>Status</Table.Th>
+              <Table.Th >Title</Table.Th>
+              <Table.Th >Description</Table.Th>
+              <Table.Th >Status</Table.Th>
               <Table.Th>Due Date</Table.Th>
-              <Table.Th>Completed</Table.Th>
+              <Table.Th  >Completed</Table.Th>
               <Table.Th>Actions</Table.Th>
-              {/* เพิ่ม table header assignees ตรงนี้*/}
+              <Table.Th >Assignees</Table.Th> 
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>

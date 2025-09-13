@@ -27,7 +27,7 @@ export default function MainLayout() {
       <AppShell.Footer>
         <FooterComponent
           year="2025"
-          fullName="Sirawit Ariyawattanawong"
+          fullName="Sirawit"
           studentId="670610740"
         />
       </AppShell.Footer>
